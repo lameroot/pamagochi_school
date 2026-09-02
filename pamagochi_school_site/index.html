@@ -46,7 +46,7 @@ button,input,select{font:inherit} button{cursor:pointer}
 .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
 .primary,.secondary,.hintbtn{border:none;border-radius:12px;padding:10px 15px;font-weight:900}
 .primary{background:var(--blue);color:white}.secondary{background:#edf4f8;color:#36536c}.hintbtn{background:#fff1bd;color:#684c00}
-.feedback{min-height:30px;margin-top:9px;font-weight:850}.ok{color:#278c3b}.bad{color:#c34842}.hint{color:#7d6100;background:#fff7d9;border-radius:10px;padding:8px 10px;display:none}
+.feedback{min-height:30px;margin-top:9px;font-weight:850}.ok{color:#278c3b}.bad{color:#c34842}.partial{color:#986d00;background:#fff7d9;border-radius:10px;padding:8px 10px}.hint{color:#7d6100;background:#fff7d9;border-radius:10px;padding:8px 10px;display:none}
 .visual-card{background:#f8fbfd;border:2px dashed #c7dfed;border-radius:18px;padding:12px}
 .sample-big{font-size:88px;line-height:1;text-align:center}
 .sample-props{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
@@ -71,7 +71,7 @@ button,input,select{font:inherit} button{cursor:pointer}
 .item-card{background:white;border:2px solid #d9e8f2;border-radius:14px;padding:10px;text-align:center;font-weight:800}.item-card .icon{font-size:32px;display:block;margin-bottom:4px}
 .r1{background:#fff1ef}.r2{background:#f1fbf0}.r3{background:#fff7ea}
 .formline{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.field{background:#fbfdff;border:2px solid #dbe9f3;border-radius:14px;padding:12px;flex:1;min-width:180px}.field label{font-weight:800;display:block;margin-bottom:6px}.field input,.field select{width:100%;padding:8px 10px;border:2px solid #bfd8e8;border-radius:10px}
-.beads{display:flex;gap:5px;flex-wrap:wrap;padding:14px;border-radius:16px;background:#fff8df;border:2px solid #f4df96}.bead{width:38px;height:38px;border-radius:50%;box-shadow:inset 6px 6px 0 rgba(255,255,255,.25),0 2px 3px rgba(0,0,0,.12)} .smallb{width:30px;height:30px}.bigb{width:48px;height:48px}
+.beads{display:flex;gap:5px;flex-wrap:wrap;padding:14px;border-radius:16px;background:#fff8df;border:2px solid #f4df96}.bead{display:inline-block;flex:0 0 auto;width:38px;height:38px;border-radius:50%;box-shadow:inset 6px 6px 0 rgba(255,255,255,.25),0 2px 3px rgba(0,0,0,.12)} .smallb{width:30px;height:30px}.bigb{width:48px;height:48px}
 .count-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.countbox{border:2px solid #d9eaf5;border-radius:14px;padding:10px;text-align:center}.countbox input{width:70px;font-size:1.3rem;text-align:center;border:2px solid #bbd8ea;border-radius:10px;padding:5px}
 .compare{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px;flex-wrap:wrap}.sym{width:58px;height:46px;border:2px solid #d7e7f2;background:white;border-radius:12px;font-size:1.5rem;font-weight:900}.sym.selected{border-color:#2488dd;background:#edf8ff}
 .angle-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.angle-card{text-align:center;border:2px solid #dbeaf4;border-radius:16px;padding:10px;background:white}.angle-card input{width:64px;text-align:center;font-size:1.25rem;border:2px solid #c7dfee;border-radius:10px;padding:5px}
@@ -86,7 +86,7 @@ button,input,select{font:inherit} button{cursor:pointer}
 .break-row{display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:#fff8df;border:2px solid #f4df96;border-radius:18px}.breakBead{width:40px;height:40px;border-radius:50%;border:3px solid rgba(255,255,255,.75);box-shadow:0 2px 3px rgba(0,0,0,.12), inset 5px 5px 0 rgba(255,255,255,.2)}.breakBead.sel{outline:4px solid #2488dd}
 .flag-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.flag-box{background:#fbfdff;border:2px dashed #c5deec;border-radius:16px;padding:12px}.flag-matrix{display:grid;grid-template-columns:repeat(3,90px);gap:8px;justify-content:center}.flag-cell{height:76px;background:white;border:2px solid #d7e7f2;border-radius:14px;display:grid;place-items:center}.flag-cell.missing{font-size:32px;font-weight:900;color:#90a9bb;border-style:dashed}
 .flag-options{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}.flagOpt{border:2px solid #d7e7f2;border-radius:14px;background:white;padding:8px 12px}.flagOpt.selected{border-color:#2488dd;background:#edf8ff}
-.flagIcon{position:relative;width:52px;height:40px}.pole{position:absolute;left:6px;top:4px;bottom:2px;width:3px;background:#7f7f7f;border-radius:2px}.cloth{position:absolute;left:9px;top:6px;height:22px;background:var(--fc)}.cloth.rect{width:28px;border-radius:3px}.cloth.tri{width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:28px solid var(--fc);background:none}.cloth.notch{width:30px;clip-path:polygon(0 0,100% 0,78% 50%,100% 100%,0 100%);border-radius:2px}
+.flagIcon{position:relative;width:56px;height:42px;margin:auto}.pole{position:absolute;left:6px;top:3px;bottom:1px;width:4px;background:#65727d;border-radius:3px}.cloth{position:absolute;left:10px;top:5px;height:24px;background:var(--fc);box-shadow:inset 0 0 0 2px #647381}.cloth.rect{width:31px;border-radius:3px}.cloth.tri{width:0;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:31px solid var(--fc);background:none;box-shadow:none;filter:drop-shadow(1px 0 0 #647381) drop-shadow(-1px 0 0 #647381) drop-shadow(0 1px 0 #647381) drop-shadow(0 -1px 0 #647381)}.cloth.notch{width:32px;clip-path:polygon(0 0,100% 0,78% 50%,100% 100%,0 100%);border-radius:2px}
 .final{display:none;text-align:center;background:linear-gradient(135deg,#eefbff,#fff8d8);border:3px solid #99d8ef;border-radius:24px;padding:25px;margin:24px 0;box-shadow:var(--shadow)}.final.show{display:block}.final .big{font-size:64px}.final h2{font-size:2rem;margin:8px}
 .parent-note{background:#f8fafc;border-left:5px solid #97b3c8;padding:12px 14px;border-radius:10px;margin:24px 0;color:#52697a}
 @media(max-width:860px){.story,.pair-panels,.flag-grid,.sort-layout{grid-template-columns:1fr}.dropzones{grid-template-columns:repeat(2,1fr)}.dropzones.two{grid-template-columns:1fr 1fr}.angle-grid{grid-template-columns:repeat(2,1fr)}.count-grid{grid-template-columns:1fr}.matrix{grid-template-columns:repeat(3,74px)}.cell{height:74px}.table-grid{grid-template-columns:repeat(2,1fr)}.flag-matrix{grid-template-columns:repeat(3,78px)}.hero{grid-template-columns:1fr;text-align:center}.owl{margin:auto}}
@@ -319,7 +319,7 @@ button,input,select{font:inherit} button{cursor:pointer}
       <div class="field"><label>Маленьких</label><input id="t10small" inputmode="numeric"></div>
       <div class="field"><label>Всего</label><input id="t10all" inputmode="numeric"></div>
     </div>
-    <div class="compare"><b>больших</b><button class="sym" data-group="cmp10" data-sym="<">&lt;</button><button class="sym" data-group="cmp10" data-sym="=">=</button><button class="sym" data-group="cmp10" data-sym=">">&gt;</button><b>маленьких</b></div>
+    <div class="small" style="text-align:center;margin-top:12px"><b>И ещё:</b> сравни количество больших и маленьких кругов и выбери знак.</div><div class="compare"><b>больших</b><button class="sym" data-group="cmp10" data-sym="<">&lt;</button><button class="sym" data-group="cmp10" data-sym="=">=</button><button class="sym" data-group="cmp10" data-sym=">">&gt;</button><b>маленьких</b></div>
     <div class="actions"><button class="primary" onclick="check10()">Проверить</button><button class="hintbtn" onclick="hint('h10')">Подсказка</button></div>
     <div id="h10" class="hint">Сначала сосчитай круги по цветам, потом отдельно большие и маленькие. Проверяй себя: все ответы вместе должны «сходиться».</div>
     <div class="feedback" id="f10"></div>
@@ -442,7 +442,7 @@ button,input,select{font:inherit} button{cursor:pointer}
 
   <section class="task" id="t15">
     <h2><span class="tasknum">15</span>Где нарушено правило?</h2>
-    <p>Бусины должны чередоваться: синяя, жёлтая, синяя, жёлтая... Нажми на бусину, где правило нарушилось, и выбери две следующие бусины.</p>
+    <p>Бусины должны чередоваться: синяя, жёлтая, синяя, жёлтая... Нажми на ошибочную бусину, укажи, какой цвет должен быть на её месте, а потом выбери две следующие бусины.</p>
     <div class="break-row" id="breakRow">
       <button class="breakBead bluebg" data-index="1"></button>
       <button class="breakBead yellowbg" data-index="2"></button>
@@ -455,11 +455,16 @@ button,input,select{font:inherit} button{cursor:pointer}
       <button class="breakBead yellowbg" data-index="9"></button>
       <button class="breakBead bluebg" data-index="10"></button>
     </div>
-    <div class="small">После последней синей бусины должны идти...</div>
+    <div class="small" style="margin-top:12px"><b>1.</b> Какой цвет должен быть у ошибочной бусины?</div>
+    <div class="answer-row" data-single="t15replace">
+      <button class="mini-choice" data-id="blue"><span class="bead blue"></span><br><b>синяя</b></button>
+      <button class="mini-choice" data-id="yellow"><span class="bead yellow"></span><br><b>жёлтая</b></button>
+    </div>
+    <div class="small" style="margin-top:12px"><b>2.</b> После исправленной 9-й синей бусины какие две должны стоять дальше?</div>
     <div class="answer-row" data-single="t15a">
-      <button class="mini-choice" data-id="yb"><span class="bead yellow"></span><span class="bead blue"></span></button>
-      <button class="mini-choice" data-id="yy"><span class="bead yellow"></span><span class="bead yellow"></span></button>
-      <button class="mini-choice" data-id="bb"><span class="bead blue"></span><span class="bead blue"></span></button>
+      <button class="mini-choice" data-id="yb"><span class="bead yellow"></span><span class="bead blue"></span><br><b>жёлтая, синяя</b></button>
+      <button class="mini-choice" data-id="yy"><span class="bead yellow"></span><span class="bead yellow"></span><br><b>жёлтая, жёлтая</b></button>
+      <button class="mini-choice" data-id="bb"><span class="bead blue"></span><span class="bead blue"></span><br><b>синяя, синяя</b></button>
     </div>
     <div class="actions"><button class="primary" onclick="check15()">Проверить</button><button class="hintbtn" onclick="hint('h15')">Подсказка</button></div>
     <div id="h15" class="hint">Сначала найди место, где рядом оказались две бусины одного цвета. Затем продолжи чередование.</div>
@@ -490,22 +495,22 @@ button,input,select{font:inherit} button{cursor:pointer}
         </div>
       </div>
       <div class="flag-box">
-        <h3 style="margin:0 0 8px;text-align:center;color:#24587f">По форме</h3>
+        <h3 style="margin:0 0 8px;text-align:center;color:#24587f">По форме</h3><div class="small" style="text-align:center;margin-bottom:8px">Смотри на контур флажка, а не на цвет.</div>
         <div class="flag-matrix">
-          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth tri" style="border-left-color:#ffffff"></span></div></div>
-          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth rect"></span></div></div>
-          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth notch"></span></div></div>
-          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth notch"></span></div></div>
-          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth tri" style="border-left-color:#ffffff"></span></div></div>
-          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth rect"></span></div></div>
-          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth rect"></span></div></div>
-          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth notch"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth tri" style="border-left-color:#e7edf2"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth notch"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth notch"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth tri" style="border-left-color:#e7edf2"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth notch"></span></div></div>
           <div class="flag-cell missing">?</div>
         </div>
         <div class="flag-options" data-single="t16right">
-          <button class="flagOpt" data-id="tri"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth tri" style="border-left-color:#ffffff"></span></div></button>
-          <button class="flagOpt" data-id="rect"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth rect"></span></div></button>
-          <button class="flagOpt" data-id="notch"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth notch"></span></div></button>
+          <button class="flagOpt" data-id="tri"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth tri" style="border-left-color:#e7edf2"></span></div></button>
+          <button class="flagOpt" data-id="rect"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth rect"></span></div></button>
+          <button class="flagOpt" data-id="notch"><div class="flagIcon" style="--fc:#e7edf2"><span class="pole"></span><span class="cloth notch"></span></div></button>
         </div>
       </div>
     </div>
@@ -557,14 +562,35 @@ function check6(){let r=+document.getElementById('redCount').value,g=+document.g
 function check7(){let a=['a0','a3','a4s','a4r','a5'].map(id=>+document.getElementById(id).value),ok=JSON.stringify(a)===JSON.stringify([0,3,4,4,5]);mark(7,ok,ok?'Верно! У квадрата и прямоугольника по 4 угла.':'Есть ошибка. Проверь, сколько углов у каждой фигуры.')}
 function check8(){let ok=+document.getElementById('codeRect').value===4&&+document.getElementById('codePent').value===5;mark(8,ok,ok?'Код разгадан! Число показывает количество углов.':'Подумай ещё: что общего у чисел 0, 3 и 4?')}
 function check9(){let ok=document.getElementById('t9q1').value==='color'&&document.getElementById('t9q2').value==='use'&&document.getElementById('t9q3').value==='matr';mark(9,ok,ok?'Отлично! Ты заметил и правило строк, и правило столбцов.':'Не всё верно. По строкам смотри на цвет, а по столбцам — на группу предметов.')}
-function check10(){let ok=+document.getElementById('t10red').value===2&&+document.getElementById('t10yellow').value===4&&+document.getElementById('t10big').value===6&&+document.getElementById('t10small').value===9&&+document.getElementById('t10all').value===15&&document.querySelector('.sym[data-group="cmp10"].selected')?.dataset.sym==='<';mark(10,ok,ok?'Верно! Красных 2, жёлтых 4, больших 6, маленьких 9, всего 15.':'Проверь счёт ещё раз. Все большие круги — это красные и жёлтые.')}
+function check10(){
+  const countsOk=+document.getElementById('t10red').value===2&&+document.getElementById('t10yellow').value===4&&+document.getElementById('t10big').value===6&&+document.getElementById('t10small').value===9&&+document.getElementById('t10all').value===15;
+  const s=document.querySelector('.sym[data-group="cmp10"].selected');
+  if(countsOk&&!s){const f=document.getElementById('f10');f.className='feedback partial';f.textContent='Все числа верны! Остался один шаг: сравни 6 больших и 9 маленьких кругов и выбери знак.';return}
+  if(countsOk&&s&&s.dataset.sym!=='<'){const f=document.getElementById('f10');f.className='feedback partial';f.textContent='Счёт верный. Исправь только знак: 6 больших кругов меньше, чем 9 маленьких.';return}
+  const ok=countsOk&&s&&s.dataset.sym==='<';
+  mark(10,ok,ok?'Верно! Красных 2, жёлтых 4, больших 6, маленьких 9, всего 15, и 6 < 9.':'Проверь числа ещё раз. Красных 2, жёлтых 4; большие — красные и жёлтые.')
+}
 function getSel(container){return [...document.querySelectorAll(container+' .thing.sel')].map(x=>x.dataset.id).sort().join(',')}
 function check11(){let a=getSel('[data-multi="q11a"]'), b=getSel('[data-multi="q11b"]'), c=getSel('[data-multi="q11c"]');let ok=a==='glass,tank'&&b==='ball,globe'&&c==='box,tank';mark(11,ok,ok?'Верно! Ты отличаешь материал, форму и устройство предмета.':'Пока не всё совпало. Прозрачные — те, через которые видно; похожие на коробку — аквариум и коробка.')}
 function check12(){let all=[...document.querySelectorAll('#t12 .drag')];let ok=all.every(x=>x.parentElement.classList.contains('zone')&&x.parentElement.dataset.kind===x.dataset.kind);mark(12,ok,ok?'Отлично! Все фигуры разделены на плоские и объёмные.':'Есть ошибка. Вспомни: объёмную фигуру можно представить как тело, у неё есть глубина.')}
 function check13(){let ok=+document.getElementById('t13c').value===8&&+document.getElementById('t13t').value===6&&+document.getElementById('t13s').value===5&&+document.getElementById('t13r').value===5&&document.getElementById('t13most').value==='circles';mark(13,ok,ok?'Верно! Кругов 8, треугольников 6, квадратов 5, прямоугольников 5.':'Проверь счёт. В какой карточке фигур больше всего?')}
 function check14(){let ok=document.getElementById('p14a').value==='chick'&&document.getElementById('p14b').value==='mitten'&&document.getElementById('p14c').value==='frog'&&document.getElementById('p14d').value==='berry'&&document.getElementById('p14e').value==='bluesq'&&document.getElementById('p14f').value==='yellowcir'&&document.getElementById('p14g').value==='greenrect'&&document.getElementById('p14h').value==='redtri';mark(14,ok,ok?'Отлично! В левой части пары по цвету, в правой — по форме.':'Есть ошибки в парах. Не забывай: в левой части смотри на цвет, в правой — на форму.')}
-function check15(){let wrong=document.querySelector('#breakRow .breakBead.sel')?.dataset.index;let next=document.querySelector('[data-single="t15a"] .selected')?.dataset.id;let ok=wrong==='9'&&next==='yb';mark(15,ok,ok?'Да! Нарушение на 9-й бусине, дальше должны идти жёлтая и синяя.':'Пока нет. Найди место, где подряд идут две бусины одного цвета, и продолжи чередование.')}
-function check16(){let l=document.querySelector('[data-single="t16left"] .selected')?.dataset.id;let r=document.querySelector('[data-single="t16right"] .selected')?.dataset.id;let ok=l==='blue'&&r==='tri';mark(16,ok,ok?'Верно! Слева нужен синий флажок, справа — треугольный.':'Попробуй ещё раз. В обеих таблицах правило циклическое.')}
+function check15(){
+  const wrong=document.querySelector('#breakRow .breakBead.sel')?.dataset.index;
+  const replacement=document.querySelector('[data-single="t15replace"] .selected')?.dataset.id;
+  const next=document.querySelector('[data-single="t15a"] .selected')?.dataset.id;
+  const ok=wrong==='9'&&replacement==='blue'&&next==='yb';
+  if(!wrong){const f=document.getElementById('f15');f.className='feedback partial';f.textContent='Сначала нажми на бусину, где нарушилось чередование.';return}
+  if(!replacement||!next){const f=document.getElementById('f15');f.className='feedback partial';f.textContent='Место выбрано. Теперь укажи правильный цвет для этой бусины и две следующие бусины.';return}
+  mark(15,ok,ok?'Да! 9-я бусина должна быть синей, а дальше идут жёлтая и синяя.':'Проверь ещё раз: цвета должны строго чередоваться — синяя, жёлтая, синяя, жёлтая...')
+}
+function check16(){
+  const l=document.querySelector('[data-single="t16left"] .selected')?.dataset.id;
+  const r=document.querySelector('[data-single="t16right"] .selected')?.dataset.id;
+  if(!l||!r){const f=document.getElementById('f16');f.className='feedback partial';f.textContent='Нужно выбрать два ответа: один флажок слева по цвету и один справа по форме.';return}
+  const ok=l==='blue'&&r==='tri';
+  mark(16,ok,ok?'Верно! Слева нужен синий прямоугольный флажок, справа — треугольный флажок.':'Попробуй ещё раз. Слева повторяются цвета, справа — именно контуры флажков.')
+}
 
 function resetAll(){solved.clear();document.querySelectorAll('.task').forEach(t=>t.classList.remove('done'));document.querySelectorAll('.feedback').forEach(f=>{f.textContent='';f.className='feedback'});document.querySelectorAll('.selected,.sel').forEach(x=>x.classList.remove('selected','sel'));document.querySelectorAll('input').forEach(i=>i.value='');document.querySelectorAll('select').forEach(s=>s.selectedIndex=0);document.querySelectorAll('.hint').forEach(h=>h.style.display='none');document.getElementById('final').classList.remove('show');document.querySelectorAll('.drag').forEach(d=>{const home=document.getElementById(d.dataset.home); if(home) home.appendChild(d)});update();window.scrollTo({top:0,behavior:'smooth'})}
 update();
