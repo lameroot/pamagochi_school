@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Весёлая математика — расширенный интерактивный учебник</title>
+<style>
+:root{
+  --blue:#1976d2;--blue2:#0d5aa1;--sky:#eef8ff;--green:#53b644;--red:#ef4b43;
+  --yellow:#ffcb45;--orange:#ff9831;--purple:#8c63d8;--brown:#8a5b3a;--ink:#31455b;
+  --muted:#6c7e90;--card:#fff;--line:#d8eaf7;--shadow:0 10px 30px rgba(33,86,120,.12)
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(#f7fbff,#f4fbef);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}
+button,input,select{font:inherit} button{cursor:pointer}
+.wrap{max-width:1120px;margin:auto;padding:16px}
+.hero{background:linear-gradient(135deg,#ffffff,#f5fbff);border:1px solid #e4eff7;border-radius:30px;box-shadow:var(--shadow);padding:24px;display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center;overflow:hidden;position:relative}
+.hero:after{content:'';position:absolute;inset:auto -50px -50px auto;width:220px;height:220px;background:radial-gradient(circle at center,#ffe28f 0,#ffe28f 30%,transparent 31%);opacity:.16}
+.owl{font-size:86px;line-height:1;background:#edf7ff;border:3px solid #cfe7f7;border-radius:26px;display:grid;place-items:center;width:120px;height:120px}
+.hero h1{margin:0 0 6px;font-size:clamp(1.8rem,4vw,2.7rem);color:#194f7f}
+.hero p{margin:0 0 10px;line-height:1.5;color:#4f667a}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#eef8ff;border:2px solid #c7e3f8;color:#1c5b8f;border-radius:999px;padding:7px 12px;font-weight:800}
+.sticky{position:sticky;top:8px;z-index:20;margin:14px 0;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border:1px solid #dcecf7;border-radius:18px;padding:10px 12px;box-shadow:0 6px 20px rgba(20,80,120,.08);display:flex;gap:12px;align-items:center}
+.progress{height:13px;background:#e8f2f8;border-radius:999px;overflow:hidden;flex:1}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#4ebd49,#ffcc42);transition:.35s}
+.score{font-weight:900;white-space:nowrap}
+.chapter{font-size:clamp(1.45rem,3vw,2rem);margin:28px 4px 10px;color:#194f7f}
+.task{background:var(--card);border:2px solid #d7eaf7;border-radius:24px;padding:18px;margin:16px 0;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.task.done{border-color:#8fd18a;background:linear-gradient(180deg,#fff,#f8fff7)}
+.task h2{margin:0 0 6px;font-size:clamp(1.18rem,3vw,1.6rem);color:#174f84}
+.task p{margin:6px 0 12px;line-height:1.45}
+.tasknum{display:inline-grid;place-items:center;background:var(--blue);color:white;width:36px;height:36px;border-radius:12px;margin-right:8px;font-weight:900}
+.small{font-size:.93rem;color:var(--muted)}
+.rules{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.rule{background:#fff7dc;border:2px solid #ffe08c;border-radius:12px;padding:8px 10px;font-weight:800;color:#6a5120}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+.choice{min-height:124px;border:3px solid #d9eaf6;border-radius:18px;background:#fff;padding:12px;text-align:center;transition:.15s;box-shadow:0 3px 0 #d9eaf6}
+.choice:hover{transform:translateY(-2px)}
+.choice.selected{border-color:#2a8ce3;background:#eef8ff;box-shadow:0 3px 0 #2a8ce3}
+.choice.correct{border-color:#63be57;background:#effbed}
+.choice.wrong{border-color:#f06d63;background:#fff0ee}
+.emoji{font-size:50px;line-height:1.05;display:block;margin-bottom:8px}
+.caption{font-weight:800}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.primary,.secondary,.hintbtn{border:none;border-radius:12px;padding:10px 15px;font-weight:900}
+.primary{background:var(--blue);color:white}.secondary{background:#edf4f8;color:#36536c}.hintbtn{background:#fff1bd;color:#684c00}
+.feedback{min-height:30px;margin-top:9px;font-weight:850}.ok{color:#278c3b}.bad{color:#c34842}.hint{color:#7d6100;background:#fff7d9;border-radius:10px;padding:8px 10px;display:none}
+.visual-card{background:#f8fbfd;border:2px dashed #c7dfed;border-radius:18px;padding:12px}
+.sample-big{font-size:88px;line-height:1;text-align:center}
+.sample-props{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.prop{background:white;border:2px solid #d7e7f2;border-radius:12px;padding:6px 10px;font-weight:800}
+/* shape tokens */
+.shape{display:inline-block;width:72px;height:72px;margin:5px;vertical-align:middle;filter:drop-shadow(0 3px 1px rgba(0,0,0,.08))}
+.circle{border-radius:50%}.square{border-radius:10px}.rect{width:100px;border-radius:10px}.oval{width:98px;height:62px;border-radius:50% / 45%}.diamond{transform:rotate(45deg);border-radius:10px}.pentagon{clip-path:polygon(50% 0,96% 35%,78% 100%,22% 100%,4% 35%)}
+.red{background:#ef4c45;--c:#ef4c45}.green{background:#5bbd45;--c:#5bbd45}.blue{background:#278be4;--c:#278be4}.yellow{background:#ffc83c;--c:#ffc83c}.purple{background:#8a62d6;--c:#8a62d6}.brown{background:#9a683c;--c:#9a683c}
+.triangle{width:0;height:0;border-left:40px solid transparent;border-right:40px solid transparent;border-bottom:72px solid var(--c);filter:drop-shadow(0 3px 1px rgba(0,0,0,.08));background:none!important}
+.token{width:70px;height:70px;border-radius:15px;background:white;border:2px solid #e0ebf2;display:grid;place-items:center}.token .shape{transform:scale(.65);margin:0}.q{font-size:42px;font-weight:900;color:#95abbc}
+.sequence{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px;background:#f8fbfd;border-radius:16px;border:2px dashed #c6e0ef}
+.answer-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.mini-choice{border:2px solid #d7e7f2;background:white;border-radius:14px;padding:7px 10px;min-width:105px;text-align:center}.mini-choice.selected{border-color:#2488dd;background:#edf8ff}
+.matrix{display:grid;grid-template-columns:repeat(3,88px);gap:8px;background:#eff7fb;padding:10px;border-radius:18px}.cell{height:88px;background:white;border:2px solid #d7e7f2;border-radius:14px;display:grid;place-items:center}.cell.missing{border-style:dashed;font-size:40px;font-weight:900;color:#8fa9bd}
+.matrix-wrap{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+/* sorting */
+.sort-layout{display:grid;grid-template-columns:1fr 1.25fr;gap:14px}.tray{background:#f4f9fc;border:2px dashed #b8d8ea;border-radius:18px;padding:12px;min-height:180px}
+.items{display:flex;flex-wrap:wrap;gap:9px;align-content:flex-start}.drag{width:98px;min-height:92px;border:2px solid #d9e8f2;background:white;border-radius:15px;padding:8px;text-align:center;user-select:none;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}.drag.sel{outline:4px solid #8bc8ff}
+.dropzones{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.dropzones.two{grid-template-columns:repeat(2,1fr)}
+.zone{border:3px dashed #c3dfee;border-radius:16px;min-height:160px;padding:9px;background:#fbfdff}.zone.over{background:#edf8ff;border-color:#2a8ce3}.zone h3{font-size:1rem;margin:0 0 8px;text-align:center;color:#24587f}.zone .drag{width:100%;min-height:72px}
+/* cards and forms */
+.table-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0}.table-grid.three{grid-template-columns:repeat(3,1fr)}
+.item-card{background:white;border:2px solid #d9e8f2;border-radius:14px;padding:10px;text-align:center;font-weight:800}.item-card .icon{font-size:32px;display:block;margin-bottom:4px}
+.r1{background:#fff1ef}.r2{background:#f1fbf0}.r3{background:#fff7ea}
+.formline{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.field{background:#fbfdff;border:2px solid #dbe9f3;border-radius:14px;padding:12px;flex:1;min-width:180px}.field label{font-weight:800;display:block;margin-bottom:6px}.field input,.field select{width:100%;padding:8px 10px;border:2px solid #bfd8e8;border-radius:10px}
+.beads{display:flex;gap:5px;flex-wrap:wrap;padding:14px;border-radius:16px;background:#fff8df;border:2px solid #f4df96}.bead{width:38px;height:38px;border-radius:50%;box-shadow:inset 6px 6px 0 rgba(255,255,255,.25),0 2px 3px rgba(0,0,0,.12)} .smallb{width:30px;height:30px}.bigb{width:48px;height:48px}
+.count-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.countbox{border:2px solid #d9eaf5;border-radius:14px;padding:10px;text-align:center}.countbox input{width:70px;font-size:1.3rem;text-align:center;border:2px solid #bbd8ea;border-radius:10px;padding:5px}
+.compare{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px;flex-wrap:wrap}.sym{width:58px;height:46px;border:2px solid #d7e7f2;background:white;border-radius:12px;font-size:1.5rem;font-weight:900}.sym.selected{border-color:#2488dd;background:#edf8ff}
+.angle-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.angle-card{text-align:center;border:2px solid #dbeaf4;border-radius:16px;padding:10px;background:white}.angle-card input{width:64px;text-align:center;font-size:1.25rem;border:2px solid #c7dfee;border-radius:10px;padding:5px}
+.code-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}.code{background:#f3f9fc;border:2px solid #d6e7f1;border-radius:14px;padding:10px 14px;font-weight:900}
+.story{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;align-items:start}
+.question-box{background:#f8fbfd;border:2px dashed #c6dfec;border-radius:16px;padding:12px}
+.inline-picks{display:flex;flex-wrap:wrap;gap:8px}.pick{border:2px solid #d7e7f2;background:white;border-radius:12px;padding:8px 10px;font-weight:800}.pick.selected{border-color:#2488dd;background:#edf8ff}
+.circles-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;padding:10px 0}.dot{border-radius:50%;display:inline-block;box-shadow:inset 6px 6px 0 rgba(255,255,255,.25),0 2px 3px rgba(0,0,0,.1)}
+.dot.small{width:30px;height:30px}.dot.big{width:52px;height:52px}.bluebg{background:#4d7fe5}.redbg{background:#ef4b43}.greenbg{background:#58b642}.yellowbg{background:#ffd63c}.brownbg{background:#9a683c}
+.statement-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.question-area{border:2px dashed #c5deec;border-radius:16px;padding:12px;background:#fbfdff}.question-area h4{margin:0 0 8px;color:#24587f}.item-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}.thing{border:2px solid #dbe9f3;border-radius:14px;padding:8px;text-align:center;background:white;font-weight:800}.thing .emoji{font-size:32px;margin:0 0 4px}.thing.sel{border-color:#2488dd;background:#edf8ff}
+.pair-panels{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{border:2px dashed #c7dfec;border-radius:16px;padding:12px;background:#fbfdff}.pair-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin-bottom:8px}.pair-row .leftItem{font-weight:800;background:white;border:2px solid #dbe9f3;border-radius:12px;padding:8px}
+.break-row{display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:#fff8df;border:2px solid #f4df96;border-radius:18px}.breakBead{width:40px;height:40px;border-radius:50%;border:3px solid rgba(255,255,255,.75);box-shadow:0 2px 3px rgba(0,0,0,.12), inset 5px 5px 0 rgba(255,255,255,.2)}.breakBead.sel{outline:4px solid #2488dd}
+.flag-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.flag-box{background:#fbfdff;border:2px dashed #c5deec;border-radius:16px;padding:12px}.flag-matrix{display:grid;grid-template-columns:repeat(3,90px);gap:8px;justify-content:center}.flag-cell{height:76px;background:white;border:2px solid #d7e7f2;border-radius:14px;display:grid;place-items:center}.flag-cell.missing{font-size:32px;font-weight:900;color:#90a9bb;border-style:dashed}
+.flag-options{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}.flagOpt{border:2px solid #d7e7f2;border-radius:14px;background:white;padding:8px 12px}.flagOpt.selected{border-color:#2488dd;background:#edf8ff}
+.flagIcon{position:relative;width:52px;height:40px}.pole{position:absolute;left:6px;top:4px;bottom:2px;width:3px;background:#7f7f7f;border-radius:2px}.cloth{position:absolute;left:9px;top:6px;height:22px;background:var(--fc)}.cloth.rect{width:28px;border-radius:3px}.cloth.tri{width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:28px solid var(--fc);background:none}.cloth.notch{width:30px;clip-path:polygon(0 0,100% 0,78% 50%,100% 100%,0 100%);border-radius:2px}
+.final{display:none;text-align:center;background:linear-gradient(135deg,#eefbff,#fff8d8);border:3px solid #99d8ef;border-radius:24px;padding:25px;margin:24px 0;box-shadow:var(--shadow)}.final.show{display:block}.final .big{font-size:64px}.final h2{font-size:2rem;margin:8px}
+.parent-note{background:#f8fafc;border-left:5px solid #97b3c8;padding:12px 14px;border-radius:10px;margin:24px 0;color:#52697a}
+@media(max-width:860px){.story,.pair-panels,.flag-grid,.sort-layout{grid-template-columns:1fr}.dropzones{grid-template-columns:repeat(2,1fr)}.dropzones.two{grid-template-columns:1fr 1fr}.angle-grid{grid-template-columns:repeat(2,1fr)}.count-grid{grid-template-columns:1fr}.matrix{grid-template-columns:repeat(3,74px)}.cell{height:74px}.table-grid{grid-template-columns:repeat(2,1fr)}.flag-matrix{grid-template-columns:repeat(3,78px)}.hero{grid-template-columns:1fr;text-align:center}.owl{margin:auto}}
+@media(max-width:560px){.dropzones{grid-template-columns:1fr}.flag-matrix{grid-template-columns:repeat(3,72px)}.sticky{top:4px}.task{padding:14px}.hero{padding:18px}.sample-big{font-size:72px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="owl">🦉</div>
+    <div>
+      <h1>Весёлая математика</h1>
+      <p>Расширенный интерактивный учебник для повторения тем 1 класса: свойства предметов, плоские и объёмные фигуры, закономерности, логические таблицы, счёт и сравнение. Все задания сделаны в новом формате и чуть сложнее обычных.</p>
+      <div class="chips">
+        <span class="chip">16 заданий</span>
+        <span class="chip">мгновенная проверка</span>
+        <span class="chip">подсказки</span>
+        <span class="chip">подходит для телефона и компьютера</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="sticky">
+    <strong>Прогресс</strong>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="score"><span id="score">0</span> / 16</div>
+  </div>
+
+  <h2 class="chapter">Часть 1. Повторяем первые темы</h2>
+
+  <section class="task" id="t1">
+    <h2><span class="tasknum">1</span>Найди все предметы той же формы</h2>
+    <p>Перед тобой образец. Выбери <b>все</b> предметы такой же формы, но другого цвета.</p>
+    <div class="story">
+      <div class="visual-card">
+        <div class="sample-big">🍅</div>
+        <div class="sample-props">
+          <span class="prop">круглая форма</span>
+          <span class="prop">красный цвет</span>
+          <span class="prop">без углов</span>
+        </div>
+      </div>
+      <div class="options" data-multi="t1">
+        <button class="choice" data-id="ball"><span class="emoji">⚽</span><span class="caption">мяч</span></button>
+        <button class="choice" data-id="book"><span class="emoji">📘</span><span class="caption">книга</span></button>
+        <button class="choice" data-id="apple"><span class="emoji">🍏</span><span class="caption">яблоко</span></button>
+        <button class="choice" data-id="flag"><span class="emoji">🚩</span><span class="caption">флажок</span></button>
+      </div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check1()">Проверить</button><button class="hintbtn" onclick="hint('h1')">Подсказка</button></div>
+    <div id="h1" class="hint">Смотри не на назначение предмета, а на форму: помидор круглый. Правильных ответов больше одного.</div>
+    <div class="feedback" id="f1"></div>
+  </section>
+
+  <section class="task" id="t2">
+    <h2><span class="tasknum">2</span>Разложи предметы по форме</h2>
+    <p>Перетащи предметы в нужные домики. Если неудобно, можно сначала нажать на предмет, а потом на нужный домик.</p>
+    <div class="sort-layout">
+      <div class="tray"><strong>Предметы</strong><div class="items" id="sortItems1">
+        <div class="drag" draggable="true" data-kind="circle" data-home="sortItems1"><div class="emoji">⚽</div><div>мяч</div></div>
+        <div class="drag" draggable="true" data-kind="square" data-home="sortItems1"><div class="emoji">🎁</div><div>подарок</div></div>
+        <div class="drag" draggable="true" data-kind="triangle" data-home="sortItems1"><div class="emoji">🚩</div><div>флажок</div></div>
+        <div class="drag" draggable="true" data-kind="rect" data-home="sortItems1"><div class="emoji">📘</div><div>книга</div></div>
+      </div></div>
+      <div class="dropzones">
+        <div class="zone" data-kind="circle"><h3>Круглые</h3></div>
+        <div class="zone" data-kind="square"><h3>Квадратные</h3></div>
+        <div class="zone" data-kind="triangle"><h3>Треугольные</h3></div>
+        <div class="zone" data-kind="rect"><h3>Прямоугольные</h3></div>
+      </div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check2()">Проверить</button><button class="hintbtn" onclick="hint('h2')">Подсказка</button></div>
+    <div id="h2" class="hint">У подарка все стороны почти одинаковые — он похож на квадрат. Книга длиннее, чем шире — она похожа на прямоугольник.</div>
+    <div class="feedback" id="f2"></div>
+  </section>
+
+  <section class="task" id="t3">
+    <h2><span class="tasknum">3</span>Соедини объёмную фигуру и предмет</h2>
+    <p>Выбери для каждой объёмной фигуры предмет такой же формы.</p>
+    <div class="formline">
+      <div class="field"><label>Шар</label><select id="m3a"><option value="">Выбери...</option><option value="gift">подарок</option><option value="ball">мяч</option><option value="can">банка</option><option value="hat">колпак</option></select></div>
+      <div class="field"><label>Куб</label><select id="m3b"><option value="">Выбери...</option><option value="gift">подарок</option><option value="ball">мяч</option><option value="can">банка</option><option value="hat">колпак</option></select></div>
+      <div class="field"><label>Цилиндр</label><select id="m3c"><option value="">Выбери...</option><option value="gift">подарок</option><option value="ball">мяч</option><option value="can">банка</option><option value="hat">колпак</option></select></div>
+      <div class="field"><label>Конус</label><select id="m3d"><option value="">Выбери...</option><option value="gift">подарок</option><option value="ball">мяч</option><option value="can">банка</option><option value="hat">колпак</option></select></div>
+    </div>
+    <div class="small">Подсказка для взрослого: здесь ребёнок связывает пространственные фигуры с предметами.</div>
+    <div class="actions"><button class="primary" onclick="check3()">Проверить</button><button class="hintbtn" onclick="hint('h3')">Подсказка</button></div>
+    <div id="h3" class="hint">Подумай так: мяч можно катить как шар, банка стоит на круглом основании как цилиндр.</div>
+    <div class="feedback" id="f3"></div>
+  </section>
+
+  <section class="task" id="t4">
+    <h2><span class="tasknum">4</span>Двойная закономерность</h2>
+    <p>В ряду одновременно меняются и <b>цвет</b>, и <b>форма</b>. Выбери пару, которая должна стоять дальше.</p>
+    <div class="sequence">
+      <div class="token"><i class="shape circle red"></i></div>
+      <div class="token"><i class="shape square blue"></i></div>
+      <div class="token"><i class="shape triangle red"></i></div>
+      <div class="token"><i class="shape circle blue"></i></div>
+      <div class="token"><i class="shape square red"></i></div>
+      <div class="token"><i class="shape triangle blue"></i></div>
+      <div class="token q">?</div><div class="token q">?</div>
+    </div>
+    <div class="answer-row" data-single="t4">
+      <button class="mini-choice" data-id="A"><i class="shape circle red"></i><i class="shape square blue"></i></button>
+      <button class="mini-choice" data-id="B"><i class="shape circle blue"></i><i class="shape square red"></i></button>
+      <button class="mini-choice" data-id="C"><i class="shape triangle red"></i><i class="shape circle blue"></i></button>
+    </div>
+    <div class="actions"><button class="primary" onclick="check4()">Проверить</button><button class="hintbtn" onclick="hint('h4')">Подсказка</button></div>
+    <div id="h4" class="hint">Формы идут так: круг, квадрат, треугольник. Цвета идут так: красный, синий, красный, синий...</div>
+    <div class="feedback" id="f4"></div>
+  </section>
+
+  <section class="task" id="t5">
+    <h2><span class="tasknum">5</span>Логическая таблица</h2>
+    <p>В каждой строке свой цвет, а в каждом столбце — свой порядок фигур. Что должно стоять в пустой клетке?</p>
+    <div class="matrix-wrap">
+      <div class="matrix">
+        <div class="cell"><i class="shape circle red"></i></div>
+        <div class="cell"><i class="shape square red"></i></div>
+        <div class="cell"><i class="shape triangle red"></i></div>
+        <div class="cell"><i class="shape triangle green"></i></div>
+        <div class="cell"><i class="shape circle green"></i></div>
+        <div class="cell"><i class="shape square green"></i></div>
+        <div class="cell"><i class="shape square blue"></i></div>
+        <div class="cell"><i class="shape triangle blue"></i></div>
+        <div class="cell missing">?</div>
+      </div>
+      <div>
+        <div class="answer-row" data-single="t5">
+          <button class="mini-choice" data-id="bluecircle"><i class="shape circle blue"></i></button>
+          <button class="mini-choice" data-id="greensquare"><i class="shape square green"></i></button>
+          <button class="mini-choice" data-id="bluetriangle"><i class="shape triangle blue"></i></button>
+          <button class="mini-choice" data-id="redsquare"><i class="shape square red"></i></button>
+        </div>
+        <div class="small">Сначала найди, какой цвет нужен, потом — какая фигура.</div>
+      </div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check5()">Проверить</button><button class="hintbtn" onclick="hint('h5')">Подсказка</button></div>
+    <div id="h5" class="hint">В нижней строке уже есть квадрат и треугольник, значит, не хватает круга. Цвет нижней строки — синий.</div>
+    <div class="feedback" id="f5"></div>
+  </section>
+
+  <section class="task" id="t6">
+    <h2><span class="tasknum">6</span>Бусины: посчитай и сравни</h2>
+    <p>Сосчитай бусины каждого цвета, а потом выбери знак между количеством красных и зелёных.</p>
+    <div class="beads"><i class="bead red"></i><i class="bead green"></i><i class="bead red"></i><i class="bead yellow"></i><i class="bead green"></i><i class="bead red"></i><i class="bead blue"></i><i class="bead green"></i><i class="bead yellow"></i><i class="bead red"></i><i class="bead green"></i><i class="bead red"></i><i class="bead yellow"></i><i class="bead green"></i></div>
+    <div class="count-grid">
+      <label class="countbox">🔴 красных<br><input id="redCount" inputmode="numeric" maxlength="2"></label>
+      <label class="countbox">🟢 зелёных<br><input id="greenCount" inputmode="numeric" maxlength="2"></label>
+      <label class="countbox">🟡 жёлтых<br><input id="yellowCount" inputmode="numeric" maxlength="2"></label>
+    </div>
+    <div class="compare"><b>красных</b><button class="sym" data-group="cmp6" data-sym="<">&lt;</button><button class="sym" data-group="cmp6" data-sym="=">=</button><button class="sym" data-group="cmp6" data-sym=">">&gt;</button><b>зелёных</b></div>
+    <div class="actions"><button class="primary" onclick="check6()">Проверить</button><button class="hintbtn" onclick="hint('h6')">Подсказка</button></div>
+    <div id="h6" class="hint">Считать удобно по цветам: сначала все красные, потом все зелёные, затем все жёлтые.</div>
+    <div class="feedback" id="f6"></div>
+  </section>
+
+  <section class="task" id="t7">
+    <h2><span class="tasknum">7</span>Сколько углов?</h2>
+    <p>Напиши, сколько углов у каждой фигуры. Потом подумай: у каких двух фигур одинаковый ответ?</p>
+    <div class="angle-grid">
+      <label class="angle-card"><i class="shape circle yellow"></i><br>круг<br><input id="a0" inputmode="numeric"></label>
+      <label class="angle-card"><i class="shape triangle blue"></i><br>треугольник<br><input id="a3" inputmode="numeric"></label>
+      <label class="angle-card"><i class="shape square green"></i><br>квадрат<br><input id="a4s" inputmode="numeric"></label>
+      <label class="angle-card"><i class="shape rect red"></i><br>прямоугольник<br><input id="a4r" inputmode="numeric"></label>
+      <label class="angle-card"><i class="shape pentagon purple"></i><br>пятиугольник<br><input id="a5" inputmode="numeric"></label>
+    </div>
+    <div class="actions"><button class="primary" onclick="check7()">Проверить</button><button class="hintbtn" onclick="hint('h7')">Подсказка</button></div>
+    <div id="h7" class="hint">У круга нет углов. У квадрата и прямоугольника ответ одинаковый.</div>
+    <div class="feedback" id="f7"></div>
+  </section>
+
+  <section class="task" id="t8">
+    <h2><span class="tasknum">8</span>Математический код</h2>
+    <p>Число показывает важное свойство фигуры. Разгадай правило и запиши недостающие числа.</p>
+    <div class="code-row"><div class="code">⚪ круг → 0</div><div class="code">🔺 треугольник → 3</div><div class="code">🟩 квадрат → 4</div></div>
+    <div class="options">
+      <label class="choice"><span class="emoji">▭</span><span class="caption">прямоугольник →</span><br><input id="codeRect" inputmode="numeric" style="width:70px;text-align:center;font-size:1.35rem;margin-top:8px"></label>
+      <label class="choice"><span class="emoji">⬟</span><span class="caption">пятиугольник →</span><br><input id="codePent" inputmode="numeric" style="width:70px;text-align:center;font-size:1.35rem;margin-top:8px"></label>
+    </div>
+    <div class="actions"><button class="primary" onclick="check8()">Проверить</button><button class="hintbtn" onclick="hint('h8')">Подсказка</button></div>
+    <div id="h8" class="hint">Подумай, что значат числа 0, 3 и 4 для круга, треугольника и квадрата.</div>
+    <div class="feedback" id="f8"></div>
+  </section>
+
+  <h2 class="chapter">Часть 2. Новые задания по мотивам учебника</h2>
+
+  <section class="task" id="t9">
+    <h2><span class="tasknum">9</span>Детектив: строки и столбцы</h2>
+    <p>Рассмотри таблицу. У предметов в каждой строке есть общий признак, и у предметов в каждом столбце тоже есть общий признак. Ответь на три вопроса.</p>
+    <div class="table-grid">
+      <div class="item-card r1"><span class="icon">🥣</span>миска</div>
+      <div class="item-card r1"><span class="icon">🍅</span>помидор</div>
+      <div class="item-card r1"><span class="icon">🩳</span>шорты</div>
+      <div class="item-card r1"><span class="icon">🔴</span>мяч</div>
+      <div class="item-card r2"><span class="icon">🫖</span>чайник</div>
+      <div class="item-card r2"><span class="icon">🥒</span>огурец</div>
+      <div class="item-card r2"><span class="icon">🧢</span>шапка</div>
+      <div class="item-card r2"><span class="icon">🪆</span>матрёшка</div>
+      <div class="item-card r3"><span class="icon">🍲</span>кастрюля</div>
+      <div class="item-card r3"><span class="icon">🥕</span>овощ</div>
+      <div class="item-card r3"><span class="icon">👗</span>платье</div>
+      <div class="item-card r3"><span class="icon">🧸</span>игрушка</div>
+    </div>
+    <div class="formline">
+      <div class="field"><label>1) Что общего у строк?</label><select id="t9q1"><option value="">Выбери...</option><option value="color">цвет</option><option value="size">размер</option><option value="use">назначение</option></select></div>
+      <div class="field"><label>2) Что общего у столбцов?</label><select id="t9q2"><option value="">Выбери...</option><option value="color">цвет</option><option value="material">материал</option><option value="use">группа предметов / назначение</option></select></div>
+      <div class="field"><label>3) Что стоит во 2-й строке и 4-м столбце?</label><select id="t9q3"><option value="">Выбери...</option><option value="matr">матрёшка</option><option value="hat">шапка</option><option value="teapot">чайник</option><option value="toy">игрушка</option></select></div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check9()">Проверить</button><button class="hintbtn" onclick="hint('h9')">Подсказка</button></div>
+    <div id="h9" class="hint">По строкам меняется цвет, а по столбцам — тип предметов: посуда, овощи, одежда, игрушки.</div>
+    <div class="feedback" id="f9"></div>
+  </section>
+
+  <section class="task" id="t10">
+    <h2><span class="tasknum">10</span>Круги: считай внимательно</h2>
+    <p>Посчитай, сколько здесь кругов каждого цвета, сколько больших и маленьких, и сколько всего.</p>
+    <div class="circles-row">
+      <i class="dot small bluebg"></i>
+      <i class="dot big redbg"></i><i class="dot big redbg"></i>
+      <i class="dot small greenbg"></i><i class="dot small greenbg"></i><i class="dot small greenbg"></i>
+      <i class="dot big yellowbg"></i><i class="dot big yellowbg"></i><i class="dot big yellowbg"></i><i class="dot big yellowbg"></i>
+      <i class="dot small brownbg"></i><i class="dot small brownbg"></i><i class="dot small brownbg"></i><i class="dot small brownbg"></i><i class="dot small brownbg"></i>
+    </div>
+    <div class="formline">
+      <div class="field"><label>Красных</label><input id="t10red" inputmode="numeric"></div>
+      <div class="field"><label>Жёлтых</label><input id="t10yellow" inputmode="numeric"></div>
+      <div class="field"><label>Больших</label><input id="t10big" inputmode="numeric"></div>
+      <div class="field"><label>Маленьких</label><input id="t10small" inputmode="numeric"></div>
+      <div class="field"><label>Всего</label><input id="t10all" inputmode="numeric"></div>
+    </div>
+    <div class="compare"><b>больших</b><button class="sym" data-group="cmp10" data-sym="<">&lt;</button><button class="sym" data-group="cmp10" data-sym="=">=</button><button class="sym" data-group="cmp10" data-sym=">">&gt;</button><b>маленьких</b></div>
+    <div class="actions"><button class="primary" onclick="check10()">Проверить</button><button class="hintbtn" onclick="hint('h10')">Подсказка</button></div>
+    <div id="h10" class="hint">Сначала сосчитай круги по цветам, потом отдельно большие и маленькие. Проверяй себя: все ответы вместе должны «сходиться».</div>
+    <div class="feedback" id="f10"></div>
+  </section>
+
+  <section class="task" id="t11">
+    <h2><span class="tasknum">11</span>Свойства предметов: выбери подходящие</h2>
+    <p>На каждой карточке-вопросе выбери <b>все</b> подходящие предметы.</p>
+    <div class="statement-wrap">
+      <div class="question-area">
+        <h4>Какие предметы прозрачные?</h4>
+        <div class="item-grid" data-multi="q11a">
+          <button class="thing" data-id="glass"><div class="emoji">🥛</div>стакан</button>
+          <button class="thing" data-id="ball"><div class="emoji">⚽</div>мяч</button>
+          <button class="thing" data-id="globe"><div class="emoji">🌍</div>глобус</button>
+          <button class="thing" data-id="tank"><div class="emoji">🐟</div>аквариум</button>
+          <button class="thing" data-id="box"><div class="emoji">📦</div>коробка</button>
+        </div>
+      </div>
+      <div class="question-area">
+        <h4>Какие предметы круглой формы?</h4>
+        <div class="item-grid" data-multi="q11b">
+          <button class="thing" data-id="glass"><div class="emoji">🥛</div>стакан</button>
+          <button class="thing" data-id="ball"><div class="emoji">⚽</div>мяч</button>
+          <button class="thing" data-id="globe"><div class="emoji">🌍</div>глобус</button>
+          <button class="thing" data-id="tank"><div class="emoji">🐟</div>аквариум</button>
+          <button class="thing" data-id="box"><div class="emoji">📦</div>коробка</button>
+        </div>
+      </div>
+      <div class="question-area">
+        <h4>Какие предметы похожи на коробку?</h4>
+        <div class="item-grid" data-multi="q11c">
+          <button class="thing" data-id="glass"><div class="emoji">🥛</div>стакан</button>
+          <button class="thing" data-id="ball"><div class="emoji">⚽</div>мяч</button>
+          <button class="thing" data-id="globe"><div class="emoji">🌍</div>глобус</button>
+          <button class="thing" data-id="tank"><div class="emoji">🐟</div>аквариум</button>
+          <button class="thing" data-id="box"><div class="emoji">📦</div>коробка</button>
+        </div>
+      </div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check11()">Проверить</button><button class="hintbtn" onclick="hint('h11')">Подсказка</button></div>
+    <div id="h11" class="hint">Подумай отдельно про материал, форму и устройство предмета. Прозрачный — значит сквозь него можно видеть.</div>
+    <div class="feedback" id="f11"></div>
+  </section>
+
+  <section class="task" id="t12">
+    <h2><span class="tasknum">12</span>Плоские и объёмные фигуры</h2>
+    <p>Разложи фигуры на две группы: плоские и объёмные.</p>
+    <div class="sort-layout">
+      <div class="tray"><strong>Фигуры</strong><div class="items" id="sortItems2">
+        <div class="drag" draggable="true" data-kind="flat" data-home="sortItems2"><i class="shape circle green"></i><div>круг</div></div>
+        <div class="drag" draggable="true" data-kind="flat" data-home="sortItems2"><i class="shape square blue"></i><div>квадрат</div></div>
+        <div class="drag" draggable="true" data-kind="flat" data-home="sortItems2"><i class="shape triangle yellow"></i><div>треугольник</div></div>
+        <div class="drag" draggable="true" data-kind="flat" data-home="sortItems2"><i class="shape rect red"></i><div>прямоугольник</div></div>
+        <div class="drag" draggable="true" data-kind="flat" data-home="sortItems2"><i class="shape oval purple"></i><div>овал</div></div>
+        <div class="drag" draggable="true" data-kind="solid" data-home="sortItems2"><div class="emoji">⚽</div><div>шар</div></div>
+        <div class="drag" draggable="true" data-kind="solid" data-home="sortItems2"><div class="emoji">🧊</div><div>куб</div></div>
+        <div class="drag" draggable="true" data-kind="solid" data-home="sortItems2"><div class="emoji">🥫</div><div>цилиндр</div></div>
+        <div class="drag" draggable="true" data-kind="solid" data-home="sortItems2"><div class="emoji">🎉</div><div>конус</div></div>
+        <div class="drag" draggable="true" data-kind="solid" data-home="sortItems2"><div class="emoji">🔺</div><div>пирамида</div></div>
+      </div></div>
+      <div class="dropzones two">
+        <div class="zone" data-kind="flat"><h3>Плоские фигуры</h3></div>
+        <div class="zone" data-kind="solid"><h3>Объёмные фигуры</h3></div>
+      </div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check12()">Проверить</button><button class="hintbtn" onclick="hint('h12')">Подсказка</button></div>
+    <div id="h12" class="hint">Плоскую фигуру можно нарисовать на листе, а объёмную можно представить как тело, у которого есть глубина.</div>
+    <div class="feedback" id="f12"></div>
+  </section>
+
+  <section class="task" id="t13">
+    <h2><span class="tasknum">13</span>Сосчитай фигуры в группах</h2>
+    <p>Посчитай, сколько фигур в каждой группе, и скажи, какая группа самая большая.</p>
+    <div class="table-grid three" style="grid-template-columns:repeat(4,1fr)">
+      <div class="visual-card"><div class="row">
+        <i class="shape circle yellow" style="transform:scale(.55)"></i><i class="shape circle blue" style="transform:scale(.38)"></i><i class="shape circle red" style="transform:scale(.45)"></i><i class="shape circle green" style="transform:scale(.68)"></i>
+      </div><div class="row"><i class="shape circle red" style="transform:scale(.32)"></i><i class="shape circle green" style="transform:scale(.35)"></i><i class="shape circle purple" style="transform:scale(.56)"></i><i class="shape circle blue" style="transform:scale(.33)"></i></div><div class="caption">Круги</div></div>
+      <div class="visual-card"><div class="row">
+        <i class="shape triangle yellow" style="transform:scale(.48)"></i><i class="shape triangle green" style="transform:scale(.33)"></i><i class="shape triangle red" style="transform:scale(.30)"></i>
+      </div><div class="row"><i class="shape triangle blue" style="transform:scale(.36)"></i><i class="shape triangle green" style="transform:scale(.28)"></i><i class="shape triangle red" style="transform:scale(.52)"></i></div><div class="caption">Треугольники</div></div>
+      <div class="visual-card"><div class="row"><i class="shape square yellow" style="transform:scale(.45)"></i><i class="shape square green" style="transform:scale(.52)"></i></div><div class="row"><i class="shape square blue" style="transform:scale(.32)"></i><i class="shape square yellow" style="transform:scale(.28)"></i><i class="shape square red" style="transform:scale(.42)"></i></div><div class="caption">Квадраты</div></div>
+      <div class="visual-card"><div class="row"><i class="shape rect green" style="transform:scale(.48)"></i><i class="shape rect yellow" style="transform:scale(.30)"></i></div><div class="row"><i class="shape rect red" style="transform:scale(.28)"></i><i class="shape rect blue" style="transform:scale(.44)"></i><i class="shape rect green" style="transform:scale(.20)"></i></div><div class="caption">Прямоугольники</div></div>
+    </div>
+    <div class="formline">
+      <div class="field"><label>Кругов</label><input id="t13c" inputmode="numeric"></div>
+      <div class="field"><label>Треугольников</label><input id="t13t" inputmode="numeric"></div>
+      <div class="field"><label>Квадратов</label><input id="t13s" inputmode="numeric"></div>
+      <div class="field"><label>Прямоугольников</label><input id="t13r" inputmode="numeric"></div>
+      <div class="field"><label>Больше всего</label><select id="t13most"><option value="">Выбери...</option><option value="circles">круги</option><option value="triangles">треугольники</option><option value="squares">квадраты</option><option value="rectangles">прямоугольники</option></select></div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check13()">Проверить</button><button class="hintbtn" onclick="hint('h13')">Подсказка</button></div>
+    <div id="h13" class="hint">Считай каждую группу отдельно, слева направо и сверху вниз, чтобы не пропустить ни одной фигуры.</div>
+    <div class="feedback" id="f13"></div>
+  </section>
+
+  <section class="task" id="t14">
+    <h2><span class="tasknum">14</span>Найди пары</h2>
+    <p>В первом окошке предметы соединяются по цвету, а во втором — по форме. Выбери правильные пары.</p>
+    <div class="pair-panels">
+      <div class="panel">
+        <h3 style="margin-top:0;color:#24587f">Пары по цвету</h3>
+        <div class="pair-row"><div class="leftItem">🍋 лимон</div><select id="p14a"><option value="">Выбери пару...</option><option value="mitten">варежка</option><option value="frog">лягушка</option><option value="chick">цыплёнок</option><option value="berry">клубника</option></select></div>
+        <div class="pair-row"><div class="leftItem">🔔 синий цветок</div><select id="p14b"><option value="">Выбери пару...</option><option value="mitten">варежка</option><option value="frog">лягушка</option><option value="chick">цыплёнок</option><option value="berry">клубника</option></select></div>
+        <div class="pair-row"><div class="leftItem">🍃 зелёный лист</div><select id="p14c"><option value="">Выбери пару...</option><option value="mitten">варежка</option><option value="frog">лягушка</option><option value="chick">цыплёнок</option><option value="berry">клубника</option></select></div>
+        <div class="pair-row"><div class="leftItem">🍅 помидор</div><select id="p14d"><option value="">Выбери пару...</option><option value="mitten">варежка</option><option value="frog">лягушка</option><option value="chick">цыплёнок</option><option value="berry">клубника</option></select></div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0;color:#24587f">Пары по форме</h3>
+        <div class="pair-row"><div class="leftItem">🟨 квадрат</div><select id="p14e"><option value="">Выбери пару...</option><option value="redtri">красный треугольник</option><option value="bluesq">синий квадрат</option><option value="yellowcir">жёлтый круг</option><option value="greenrect">зелёный прямоугольник</option></select></div>
+        <div class="pair-row"><div class="leftItem">🟢 круг</div><select id="p14f"><option value="">Выбери пару...</option><option value="redtri">красный треугольник</option><option value="bluesq">синий квадрат</option><option value="yellowcir">жёлтый круг</option><option value="greenrect">зелёный прямоугольник</option></select></div>
+        <div class="pair-row"><div class="leftItem">🟥 прямоугольник</div><select id="p14g"><option value="">Выбери пару...</option><option value="redtri">красный треугольник</option><option value="bluesq">синий квадрат</option><option value="yellowcir">жёлтый круг</option><option value="greenrect">зелёный прямоугольник</option></select></div>
+        <div class="pair-row"><div class="leftItem">🔺 треугольник</div><select id="p14h"><option value="">Выбери пару...</option><option value="redtri">красный треугольник</option><option value="bluesq">синий квадрат</option><option value="yellowcir">жёлтый круг</option><option value="greenrect">зелёный прямоугольник</option></select></div>
+      </div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check14()">Проверить</button><button class="hintbtn" onclick="hint('h14')">Подсказка</button></div>
+    <div id="h14" class="hint">В левой части цвет важнее формы, а в правой — форма важнее цвета.</div>
+    <div class="feedback" id="f14"></div>
+  </section>
+
+  <section class="task" id="t15">
+    <h2><span class="tasknum">15</span>Где нарушено правило?</h2>
+    <p>Бусины должны чередоваться: синяя, жёлтая, синяя, жёлтая... Нажми на бусину, где правило нарушилось, и выбери две следующие бусины.</p>
+    <div class="break-row" id="breakRow">
+      <button class="breakBead bluebg" data-index="1"></button>
+      <button class="breakBead yellowbg" data-index="2"></button>
+      <button class="breakBead bluebg" data-index="3"></button>
+      <button class="breakBead yellowbg" data-index="4"></button>
+      <button class="breakBead bluebg" data-index="5"></button>
+      <button class="breakBead yellowbg" data-index="6"></button>
+      <button class="breakBead bluebg" data-index="7"></button>
+      <button class="breakBead yellowbg" data-index="8"></button>
+      <button class="breakBead yellowbg" data-index="9"></button>
+      <button class="breakBead bluebg" data-index="10"></button>
+    </div>
+    <div class="small">После последней синей бусины должны идти...</div>
+    <div class="answer-row" data-single="t15a">
+      <button class="mini-choice" data-id="yb"><span class="bead yellow"></span><span class="bead blue"></span></button>
+      <button class="mini-choice" data-id="yy"><span class="bead yellow"></span><span class="bead yellow"></span></button>
+      <button class="mini-choice" data-id="bb"><span class="bead blue"></span><span class="bead blue"></span></button>
+    </div>
+    <div class="actions"><button class="primary" onclick="check15()">Проверить</button><button class="hintbtn" onclick="hint('h15')">Подсказка</button></div>
+    <div id="h15" class="hint">Сначала найди место, где рядом оказались две бусины одного цвета. Затем продолжи чередование.</div>
+    <div class="feedback" id="f15"></div>
+  </section>
+
+  <section class="task" id="t16">
+    <h2><span class="tasknum">16</span>Какого флажка не хватает?</h2>
+    <p>В каждом квадрате спрятано правило. Слева меняется <b>цвет</b>, справа — <b>форма флажка</b>. Выбери недостающий флажок в каждом квадрате.</p>
+    <div class="flag-grid">
+      <div class="flag-box">
+        <h3 style="margin:0 0 8px;text-align:center;color:#24587f">По цвету</h3>
+        <div class="flag-matrix">
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#4169e1"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ef4b43"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffd63c"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffd63c"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#4169e1"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ef4b43"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ef4b43"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffd63c"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell missing">?</div>
+        </div>
+        <div class="flag-options" data-single="t16left">
+          <button class="flagOpt" data-id="blue"><div class="flagIcon" style="--fc:#4169e1"><span class="pole"></span><span class="cloth rect"></span></div></button>
+          <button class="flagOpt" data-id="red"><div class="flagIcon" style="--fc:#ef4b43"><span class="pole"></span><span class="cloth rect"></span></div></button>
+          <button class="flagOpt" data-id="yellow"><div class="flagIcon" style="--fc:#ffd63c"><span class="pole"></span><span class="cloth rect"></span></div></button>
+        </div>
+      </div>
+      <div class="flag-box">
+        <h3 style="margin:0 0 8px;text-align:center;color:#24587f">По форме</h3>
+        <div class="flag-matrix">
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth tri" style="border-left-color:#ffffff"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth notch"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth notch"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth tri" style="border-left-color:#ffffff"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth rect"></span></div></div>
+          <div class="flag-cell"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth notch"></span></div></div>
+          <div class="flag-cell missing">?</div>
+        </div>
+        <div class="flag-options" data-single="t16right">
+          <button class="flagOpt" data-id="tri"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth tri" style="border-left-color:#ffffff"></span></div></button>
+          <button class="flagOpt" data-id="rect"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth rect"></span></div></button>
+          <button class="flagOpt" data-id="notch"><div class="flagIcon" style="--fc:#ffffff"><span class="pole"></span><span class="cloth notch"></span></div></button>
+        </div>
+      </div>
+    </div>
+    <div class="actions"><button class="primary" onclick="check16()">Проверить</button><button class="hintbtn" onclick="hint('h16')">Подсказка</button></div>
+    <div id="h16" class="hint">В левом квадрате цвета повторяются по кругу: синий, красный, жёлтый. В правом — формы: треугольный, прямоугольный, с выемкой.</div>
+    <div class="feedback" id="f16"></div>
+  </section>
+
+  <div class="final" id="final"><div class="big">🏆</div><h2>Учебник пройден!</h2><p id="finalText"></p><button class="primary" onclick="resetAll()">Пройти ещё раз</button></div>
+  <div class="parent-note"><b>Для взрослого:</b> это не копия учебника, а новый набор упражнений по тем же темам. Задания сделаны чуть сложнее: ребёнку нужно удерживать сразу несколько признаков, замечать закономерности, сравнивать количества и делать простые логические выводы.</div>
+</div>
+<script>
+const TOTAL=16; const solved=new Set();
+function mark(n,good,msg){const t=document.getElementById('t'+n),f=document.getElementById('f'+n);f.className='feedback '+(good?'ok':'bad');f.textContent=msg;if(good){solved.add(n);t.classList.add('done')}else{solved.delete(n);t.classList.remove('done')} update()}
+function update(){document.getElementById('score').textContent=solved.size;document.getElementById('bar').style.width=(solved.size/TOTAL*100)+'%';if(solved.size===TOTAL){document.getElementById('final').classList.add('show');document.getElementById('finalText').textContent='Ты решил все 16 заданий! Здесь были и свойства предметов, и фигуры, и логические задачи, и закономерности. Отличная работа!';document.getElementById('final').scrollIntoView({behavior:'smooth',block:'center'})}}
+function hint(id){let e=document.getElementById(id);e.style.display=e.style.display==='block'?'none':'block'}
+
+// universal selection behaviour
+function setupSelectable(){
+  document.querySelectorAll('[data-multi] .choice,[data-multi] .thing,[data-multi].thing').forEach(b=>b.addEventListener('click',()=>b.classList.toggle('selected')));
+  document.querySelectorAll('[data-single] .choice,[data-single] .mini-choice,[data-single] .flagOpt').forEach(b=>b.addEventListener('click',()=>{b.parentElement.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')}));
+  document.querySelectorAll('.thing').forEach(b=>b.addEventListener('click',()=>b.classList.toggle('sel')));
+  document.querySelectorAll('.pick').forEach(b=>b.addEventListener('click',()=>b.classList.toggle('selected')));
+  document.querySelectorAll('.sym').forEach(b=>b.addEventListener('click',()=>{let g=b.dataset.group;document.querySelectorAll('.sym[data-group="'+g+'"]').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')}));
+  document.querySelectorAll('#breakRow .breakBead').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#breakRow .breakBead').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')}));
+}
+setupSelectable();
+
+function idsFrom(selector){return [...document.querySelectorAll(selector)].map(x=>x.dataset.id).sort().join(',')}
+function check1(){let s=idsFrom('[data-multi="t1"] .selected');mark(1,s==='apple,ball',s==='apple,ball'?'Верно! Яблоко и мяч подходят по форме.':'Пока нет. Правильных ответов два: ищем круглую форму, но другой цвет.')}
+
+// drag and drop + tap-to-place for all sort tasks
+let picked=null;
+document.querySelectorAll('.drag').forEach(el=>{
+  el.addEventListener('dragstart',e=>{picked=el;e.dataTransfer.setData('text/plain','x')});
+  el.addEventListener('click',()=>{document.querySelectorAll('.drag.sel').forEach(x=>x.classList.remove('sel'));picked=el;el.classList.add('sel')});
+});
+document.querySelectorAll('.zone').forEach(z=>{
+  z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('over')});
+  z.addEventListener('dragleave',()=>z.classList.remove('over'));
+  z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('over');if(picked){z.appendChild(picked);picked.classList.remove('sel');picked=null}});
+  z.addEventListener('click',e=>{if((e.target===z||e.target.tagName==='H3')&&picked){z.appendChild(picked);picked.classList.remove('sel');picked=null}})
+});
+function check2(){let all=[...document.querySelectorAll('#t2 .drag')];let ok=all.every(x=>x.parentElement.classList.contains('zone')&&x.parentElement.dataset.kind===x.dataset.kind);mark(2,ok,ok?'Отлично! Все предметы разложены по форме верно.':'Есть ошибка. Проверь, действительно ли предмет похож на форму своего домика.')}
+function check3(){let ok=document.getElementById('m3a').value==='ball'&&document.getElementById('m3b').value==='gift'&&document.getElementById('m3c').value==='can'&&document.getElementById('m3d').value==='hat';mark(3,ok,ok?'Верно: шар—мяч, куб—подарок, цилиндр—банка, конус—колпак.':'Пока не всё совпало. Подумай, какой предмет можно катить как шар, а какой похож на колпак.')}
+function check4(){let s=document.querySelector('[data-single="t4"] .selected');mark(4,s&&s.dataset.id==='A',s&&s.dataset.id==='A'?'Правильно! Дальше идут красный круг и синий квадрат.':'Попробуй ещё раз. Отдельно проследи порядок форм и порядок цветов.')}
+function check5(){let s=document.querySelector('[data-single="t5"] .selected');mark(5,s&&s.dataset.id==='bluecircle',s&&s.dataset.id==='bluecircle'?'Да! Не хватало синего круга.':'Не совсем. Определи недостающую фигуру в строке и цвет всей строки.')}
+function check6(){let r=+document.getElementById('redCount').value,g=+document.getElementById('greenCount').value,y=+document.getElementById('yellowCount').value,s=document.querySelector('.sym[data-group="cmp6"].selected');let ok=r===5&&g===5&&y===3&&s&&s.dataset.sym==='=';mark(6,ok,ok?'Точно! Красных 5, зелёных 5, жёлтых 3, поэтому 5 = 5.':'Проверь ещё раз числа и знак. Синие бусины считать не нужно.')}
+function check7(){let a=['a0','a3','a4s','a4r','a5'].map(id=>+document.getElementById(id).value),ok=JSON.stringify(a)===JSON.stringify([0,3,4,4,5]);mark(7,ok,ok?'Верно! У квадрата и прямоугольника по 4 угла.':'Есть ошибка. Проверь, сколько углов у каждой фигуры.')}
+function check8(){let ok=+document.getElementById('codeRect').value===4&&+document.getElementById('codePent').value===5;mark(8,ok,ok?'Код разгадан! Число показывает количество углов.':'Подумай ещё: что общего у чисел 0, 3 и 4?')}
+function check9(){let ok=document.getElementById('t9q1').value==='color'&&document.getElementById('t9q2').value==='use'&&document.getElementById('t9q3').value==='matr';mark(9,ok,ok?'Отлично! Ты заметил и правило строк, и правило столбцов.':'Не всё верно. По строкам смотри на цвет, а по столбцам — на группу предметов.')}
+function check10(){let ok=+document.getElementById('t10red').value===2&&+document.getElementById('t10yellow').value===4&&+document.getElementById('t10big').value===6&&+document.getElementById('t10small').value===9&&+document.getElementById('t10all').value===15&&document.querySelector('.sym[data-group="cmp10"].selected')?.dataset.sym==='<';mark(10,ok,ok?'Верно! Красных 2, жёлтых 4, больших 6, маленьких 9, всего 15.':'Проверь счёт ещё раз. Все большие круги — это красные и жёлтые.')}
+function getSel(container){return [...document.querySelectorAll(container+' .thing.sel')].map(x=>x.dataset.id).sort().join(',')}
+function check11(){let a=getSel('[data-multi="q11a"]'), b=getSel('[data-multi="q11b"]'), c=getSel('[data-multi="q11c"]');let ok=a==='glass,tank'&&b==='ball,globe'&&c==='box,tank';mark(11,ok,ok?'Верно! Ты отличаешь материал, форму и устройство предмета.':'Пока не всё совпало. Прозрачные — те, через которые видно; похожие на коробку — аквариум и коробка.')}
+function check12(){let all=[...document.querySelectorAll('#t12 .drag')];let ok=all.every(x=>x.parentElement.classList.contains('zone')&&x.parentElement.dataset.kind===x.dataset.kind);mark(12,ok,ok?'Отлично! Все фигуры разделены на плоские и объёмные.':'Есть ошибка. Вспомни: объёмную фигуру можно представить как тело, у неё есть глубина.')}
+function check13(){let ok=+document.getElementById('t13c').value===8&&+document.getElementById('t13t').value===6&&+document.getElementById('t13s').value===5&&+document.getElementById('t13r').value===5&&document.getElementById('t13most').value==='circles';mark(13,ok,ok?'Верно! Кругов 8, треугольников 6, квадратов 5, прямоугольников 5.':'Проверь счёт. В какой карточке фигур больше всего?')}
+function check14(){let ok=document.getElementById('p14a').value==='chick'&&document.getElementById('p14b').value==='mitten'&&document.getElementById('p14c').value==='frog'&&document.getElementById('p14d').value==='berry'&&document.getElementById('p14e').value==='bluesq'&&document.getElementById('p14f').value==='yellowcir'&&document.getElementById('p14g').value==='greenrect'&&document.getElementById('p14h').value==='redtri';mark(14,ok,ok?'Отлично! В левой части пары по цвету, в правой — по форме.':'Есть ошибки в парах. Не забывай: в левой части смотри на цвет, в правой — на форму.')}
+function check15(){let wrong=document.querySelector('#breakRow .breakBead.sel')?.dataset.index;let next=document.querySelector('[data-single="t15a"] .selected')?.dataset.id;let ok=wrong==='9'&&next==='yb';mark(15,ok,ok?'Да! Нарушение на 9-й бусине, дальше должны идти жёлтая и синяя.':'Пока нет. Найди место, где подряд идут две бусины одного цвета, и продолжи чередование.')}
+function check16(){let l=document.querySelector('[data-single="t16left"] .selected')?.dataset.id;let r=document.querySelector('[data-single="t16right"] .selected')?.dataset.id;let ok=l==='blue'&&r==='tri';mark(16,ok,ok?'Верно! Слева нужен синий флажок, справа — треугольный.':'Попробуй ещё раз. В обеих таблицах правило циклическое.')}
+
+function resetAll(){solved.clear();document.querySelectorAll('.task').forEach(t=>t.classList.remove('done'));document.querySelectorAll('.feedback').forEach(f=>{f.textContent='';f.className='feedback'});document.querySelectorAll('.selected,.sel').forEach(x=>x.classList.remove('selected','sel'));document.querySelectorAll('input').forEach(i=>i.value='');document.querySelectorAll('select').forEach(s=>s.selectedIndex=0);document.querySelectorAll('.hint').forEach(h=>h.style.display='none');document.getElementById('final').classList.remove('show');document.querySelectorAll('.drag').forEach(d=>{const home=document.getElementById(d.dataset.home); if(home) home.appendChild(d)});update();window.scrollTo({top:0,behavior:'smooth'})}
+update();
+</script>
+</body></html>
