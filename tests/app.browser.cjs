@@ -11,7 +11,7 @@ for(const width of [1440,390]){
  const pick=(group,id)=>click(`[data-single="${group}"] [data-id="${id}"]`);
  const check=async(n,ok)=>{await click(`[data-action="check${n}()"]`);assert.equal(await root.locator('#t'+n).evaluate(t=>t.classList.contains('done')),ok,'task '+n);};
  const sort=async n=>{while(await root.locator(`#t${n} .items .drag`).count()){const item=root.locator(`#t${n} .items .drag`).first();const kind=await item.getAttribute('data-kind');await item.click();await root.locator(`#t${n} .zone[data-kind="${kind}"] h3`).click();}};
- assert.equal(await page.locator('.lesson-card').count(),7);await page.screenshot({path:`/tmp/school-home-${width}.png`,fullPage:true});
+ assert.equal(await page.locator('.lesson-card').count(),9);await page.screenshot({path:`/tmp/school-home-${width}.png`,fullPage:true});
  for(const [i,id] of ['shapes','numbers','properties','patterns'].entries()){
   await go(id);assert.equal(await root.locator('.task:visible').count(),4);
   for(let n=i*4+1;n<=i*4+4;n++){await check(n,false);await click(`#t${n} .hintbtn`);assert.equal(await root.locator('#h'+n).isVisible(),true);await click(`#t${n} .hintbtn`);}
@@ -28,10 +28,10 @@ for(const width of [1440,390]){
  await go('patterns');await fill({t13c:8,t13t:6,t13s:5,t13r:5});await select({t13most:'circles'});await check(13,true);
  await select({p14a:'chick',p14b:'mitten',p14c:'frog',p14d:'berry',p14e:'bluesq',p14f:'yellowcir',p14g:'greenrect',p14h:'redtri'});await check(14,true);
  await click('#breakRow [data-index="9"]');await check(15,false);await pick('t15replace','blue');await pick('t15a','yb');await check(15,true);await pick('t16left','blue');await pick('t16right','tri');await check(16,true);
- assert.equal(await page.locator('#total-count').textContent(),'16 / 28');await page.reload();assert.equal(await page.locator('#total-count').textContent(),'16 / 28');
+ assert.equal(await page.locator('#total-count').textContent(),'16 / 36');await page.reload();assert.equal(await page.locator('#total-count').textContent(),'16 / 36');
  await page.screenshot({path:`/tmp/school-lesson-${width}.png`,fullPage:true});
- await page.locator('#reset-open').click();await page.locator('#reset-cancel').click();assert.equal(await page.locator('#total-count').textContent(),'16 / 28');await page.locator('#reset-open').click();await page.locator('#reset-confirm').click();assert.equal(await page.locator('#total-count').textContent(),'12 / 28');
- await go('shapes');assert.equal(await root.locator('#t2 .zone .drag').count(),4);await page.locator('#reset-open').click();await page.locator('#reset-confirm').click();assert.equal(await root.locator('#sortItems1 .drag').count(),4);assert.equal(await page.locator('#total-count').textContent(),'8 / 28');
+ await page.locator('#reset-open').click();await page.locator('#reset-cancel').click();assert.equal(await page.locator('#total-count').textContent(),'16 / 36');await page.locator('#reset-open').click();await page.locator('#reset-confirm').click();assert.equal(await page.locator('#total-count').textContent(),'12 / 36');
+ await go('shapes');assert.equal(await root.locator('#t2 .zone .drag').count(),4);await page.locator('#reset-open').click();await page.locator('#reset-confirm').click();assert.equal(await root.locator('#sortItems1 .drag').count(),4);assert.equal(await page.locator('#total-count').textContent(),'8 / 36');
  await root.locator('#t1 [data-id="ball"]').focus();await page.keyboard.press('Enter');assert.equal(await root.locator('#t1 [data-id="ball"]').evaluate(e=>e.classList.contains('selected')),true);
  await page.setViewportSize({width:320,height:800});for(const id of ['shapes','numbers','properties','patterns','transformations','sizes','groups']){await go(id);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'320 overflow '+id);const clipped=await page.locator('.engine:not([hidden]) .task:visible').evaluateAll(nodes=>nodes.filter(e=>e.scrollWidth>e.clientWidth+1).map(e=>e.id));assert.deepEqual(clipped,[],'clipped task '+id);}
  await page.locator('#home-link').click();await page.locator('#parent-open').click();await page.keyboard.press('Escape');assert.equal(await page.locator('#parent-dialog').isVisible(),false);

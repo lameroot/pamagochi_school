@@ -1,0 +1,6 @@
+@import url('./laboratory.css');
+.collection-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}.specimen{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px;background:#f5f8fd;border-radius:14px;min-width:0}.specimen .field{flex-direction:column;align-items:stretch;width:100%}.specimen .shape{width:80px!important;height:80px!important}.object-icon{font-size:42px}.ribbon{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.ribbon .specimen{padding:8px}.ribbon select{width:100%;font-size:14px}.ribbon strong,.specimen strong{font-size:13px}.options .specimen{background:#fff}.options .specimen[aria-pressed=true]{background:#eaf1ff}
+@media(max-width:750px){.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ribbon{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:420px){.collection-grid{grid-template-columns:minmax(0,1fr)}.ribbon{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.empty-bead{display:grid;place-items:center;width:80px;height:80px;color:#60718b;font-size:26px;border:2px dashed #a2b1c8;border-radius:50%;transform:scale(.48)}

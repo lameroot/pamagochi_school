@@ -81,7 +81,7 @@ const output=process.env.LAB_SCREENSHOTS||'/tmp';
   await context.close();
  }
  const context=await browser.newContext();const p=await context.newPage();
- await p.addInitScript(()=>{Storage.prototype.getItem=()=>{throw Error('blocked')};Storage.prototype.setItem=()=>{throw Error('blocked')};});await p.goto(url);assert.match(await p.locator('#storage-note').textContent(),/недоступно/);await p.locator('[data-check="1"]').click();await context.close();
+ await p.addInitScript(()=>{Storage.prototype.getItem=()=>{throw Error('blocked')};Storage.prototype.setItem=()=>{throw Error('blocked')};});await p.goto(url);assert.match(await p.locator('#storage-note').textContent(),/недоступно/);await p.locator('#laboratory [data-check="1"]').click();await context.close();
  const p2=await browser.newPage();await p2.goto(url);await p2.evaluate(()=>localStorage.setItem('pamagochi-lab-v1','{broken'));await p2.reload();assert.equal(await p2.locator('#laboratory .task').count(),4);
  await p2.goto('http://127.0.0.1:8775/');await p2.waitForURL('**/pamagochi_school_site/index.html');await p2.locator('.lesson-card[href="#lesson/transformations"]').click();assert.match(p2.url(),/#lesson\/transformations$/);
  console.log('PASS unavailable storage, corrupt storage, root entry point and old-to-new navigation');

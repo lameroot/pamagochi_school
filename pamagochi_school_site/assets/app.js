@@ -1,7 +1,7 @@
 'use strict';
 (() => {
  const $=s=>document.querySelector(s), lessons=window.schoolLessons;
- const total=lessons.reduce((n,l)=>n+l.tasks.length,0), scores={foundations:[],laboratory:[]}, storage={foundations:true,laboratory:true,shell:true};
+ const total=lessons.reduce((n,l)=>n+l.tasks.length,0), scores={foundations:[],laboratory:[],collections:[]}, storage={foundations:true,laboratory:true,collections:true,shell:true};
  let active=null,last='',mounted=false;
  try{last=localStorage.getItem('pamagochi-last-lesson')||'';}catch{storage.shell=false;}
  const done=l=>l.tasks.filter(n=>scores[l.engine].includes(n)).length;
@@ -17,7 +17,7 @@
   if(active){$('#lesson-score').textContent=`✦ ${done(active)} / ${active.tasks.length} открытий`;$('#lesson-complete').hidden=done(active)!==active.tasks.length;$('#task-nav').innerHTML=active.tasks.map((n,i)=>`<button data-task="${n}" aria-label="Задание ${i+1}${scores[active.engine].includes(n)?', решено':''}" class="${scores[active.engine].includes(n)?'earned':''}">${scores[active.engine].includes(n)?'✓':i+1}<span>Задание ${i+1}</span></button>`).join('');}
  }
  const engines={};
- for(const [name,mount] of [['foundations',window.mountFoundations],['laboratory',window.mountLaboratory]]){
+ for(const [name,mount] of [['foundations',window.mountFoundations],['laboratory',window.mountLaboratory],['collections',window.mountCollections]]){
   const root=$('#'+name).attachShadow({mode:'open'});
   engines[name]=mount(root,(solved,ok)=>{scores[name]=solved;storage[name]=ok;refresh();});
   for(const file of [`lessons/${name}.css`,'exercise-theme.css']){const link=document.createElement('link');link.rel='stylesheet';link.href='assets/'+file;root.prepend(link);}
