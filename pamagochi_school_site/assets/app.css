@@ -4,3 +4,6 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 .study-heading h1:focus{outline:none}
 @media(max-width:540px){.progress-panel progress{flex:1 0 calc(100% - 60px);width:auto}.study-heading>span:last-child{flex-basis:100%;margin-left:56px}}
+
+/* Separate experiment: does not change catalog IDs or existing progress. */
+.island-invitation{display:flex;align-items:center;gap:20px;padding:24px;margin-top:26px;border:1px solid #b9d7dc;border-radius:22px;background:linear-gradient(120deg,#e5f1f6,#f0f6e9);color:#2e5665;text-decoration:none}.island-invitation-icon{font-size:44px}.island-invitation strong{display:block;font-size:24px;margin:4px 0}.island-invitation small{font-size:9px;letter-spacing:1.4px}.island-invitation span span{font-size:13px}.island-invitation b{margin-left:auto;white-space:nowrap;font-size:13px}@media(max-width:600px){.island-invitation{padding:19px;gap:12px;flex-wrap:wrap}.island-invitation b{margin-left:0}.island-invitation-icon{display:none}}
