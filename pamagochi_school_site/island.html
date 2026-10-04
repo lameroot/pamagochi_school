@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#edf5f7"><title>Остров фигур · 3D-урок Памагочи</title>
+<link rel="icon" href="assets/mascot.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/island/island.css">
+<script type="importmap">{"imports":{"three":"./assets/island/vendor/three.module.js"}}</script>
+<script src="assets/island/lesson.js" type="module"></script>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="index.html#home" aria-label="Памагочи — все уроки"><span class="brand-mark">п.</span><b>памагочи<span>ЛАБОРАТОРИЯ ОТКРЫТИЙ</span></b></a>
+<a href="index.html#lesson/shapes" class="back">← К обычному уроку</a>
+<div class="progress-wrap"><span id="star-count">0 из 3 открытий</span><progress id="progress" max="3" value="0" aria-label="Прогресс 3D-урока"></progress></div>
+<button id="reset" class="icon-button" aria-label="Начать 3D-урок заново" title="Начать заново">↺</button>
+</header>
+<main class="adventure">
+<section class="world" aria-label="Интерактивный трёхмерный остров">
+<div id="viewport" tabindex="0" aria-label="3D-остров. Вращай мышью или пальцем. Нажми на дорожку, чтобы переместить робота. Все действия также доступны кнопками справа."></div>
+<div class="world-heading"><span class="eyebrow"><i></i> СЕКРЕТЫ ФИГУР · 3D ЭКСПЕДИЦИЯ</span><h1>Остров фигур</h1><p>Маленький остров. Большие открытия.</p></div>
+<div class="camera-tools" aria-label="Управление камерой"><button id="overview" title="Показать весь остров" aria-label="Весь остров">⌂</button><button id="zoom-in" title="Приблизить" aria-label="Приблизить">+</button><button id="zoom-out" title="Отдалить" aria-label="Отдалить">−</button><button id="orbit" title="Повернуть камеру" aria-label="Повернуть камеру">↻</button></div>
+<div id="markers" aria-label="Станции на острове"></div>
+<div class="loading" id="loading" role="status"><span class="loader-orbit">◌</span><strong>Остров появляется из облаков…</strong><span>Загружаем настоящую 3D-модель</span></div>
+<div class="world-bottom"><span class="movement-note">↔ Вращай остров <span>·</span> Нажми на дорожку — робот пойдёт</span><button id="tour" class="tour-button">К мастерской ↗</button></div>
+</section>
+<aside class="quest" aria-label="Задание станции">
+<div class="quest-top"><span class="eyebrow" id="quest-number">СТАНЦИЯ 01 / 03</span><span class="experiment">ЭКСПЕРИМЕНТ</span></div>
+<div class="guide"><img src="assets/mascot.svg" alt="" width="55" height="55"><p id="guide-text">Привет! Я Пик. Помоги мне собрать ракету и отправиться к новым открытиям.</p></div>
+<h2 id="quest-title"></h2><p id="quest-description" class="description"></p>
+<fieldset id="interactions" disabled><legend class="sr-only">Ответ на задание</legend><div id="answer-ui"></div><div class="actions"><button id="check" class="primary">Проверить <span>→</span></button><button id="hint-toggle" class="secondary" aria-expanded="false" aria-controls="hint">Подсказка</button></div></fieldset>
+<p id="hint" class="hint" hidden></p><div id="feedback" role="status" aria-live="polite" class="feedback"></div>
+<button id="next" class="next-button" hidden>Следующая станция →</button>
+<div class="quest-foot"><span>✧ Без оценок и таймера</span><small id="save-note">Сохраняем открытия на этом устройстве</small></div>
+</aside>
+</main>
+<nav class="stations" aria-label="Путешествие по острову">
+<button data-station="0" class="station active"><span class="station-icon">01</span><span><b>Мастерская форм</b><small>Предметы и объёмные фигуры</small></span><span class="station-star">✧</span></button>
+<span class="route-line"></span>
+<button data-station="1" class="station"><span class="station-icon">02</span><span><b>Мост секретов</b><small>Два правила одновременно</small></span><span class="station-star">✧</span></button>
+<span class="route-line"></span>
+<button data-station="2" class="station"><span class="station-icon">03</span><span><b>Космопорт</b><small>Построй ракету по чертежу</small></span><span class="station-star">✧</span></button>
+</nav>
+<dialog id="reset-dialog"><h2>Начать экспедицию заново?</h2><p>Сбросится только этот 3D-урок. Открытия в обычных уроках останутся.</p><div class="actions"><button id="reset-cancel" class="secondary">Продолжить игру</button><button id="reset-confirm" class="primary">Начать заново</button></div></dialog>
+<dialog id="complete-dialog"><div class="victory-stars">✦ ✦ ✦</div><span class="eyebrow">ЭКСПЕДИЦИЯ ЗАВЕРШЕНА</span><h2>Ты открыл секреты фигур!</h2><p>Нашёл форму предметов, продолжил двойной узор и собрал ракету. Можно отправляться к звёздам!</p><button id="launch" class="primary">Запустить ракету ↑</button><button id="keep-exploring" class="secondary">Ещё погулять</button></dialog>
+<noscript><p>Для 3D-урока нужен JavaScript. <a href="index.html">Вернуться к учебнику</a>.</p></noscript>
+</body></html>

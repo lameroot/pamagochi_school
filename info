@@ -1,0 +1,24 @@
+{
+  "build" : {
+    "groupId" : "ru.rbs.aviapay",
+    "version" : "1.205.3",
+    "artifact" : "uralair",
+    "name" : "uralair",
+    "time" : "2026-09-10T08:00:29Z",
+    "group" : "net.payrdr.aviapay"
+  },
+  "applicationInfo" : {
+    "startupTime" : "2026-09-10T13:07:10Z"
+  },
+  "git" : {
+    "branch" : "849d9da3eb9de64641035e9b5e1e4db7a592065c",
+    "commit" : {
+      "id" : "849d9da",
+      "time" : "2026-09-10T08:00:23Z",
+      "user" : "Bamboo RBS"
+    },
+    "build" : {
+      "user" : "Bamboo RBS"
+    }
+  }
+}
